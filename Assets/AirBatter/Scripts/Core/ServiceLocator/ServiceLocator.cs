@@ -3,26 +3,10 @@ using UnityEngine;
 
 public class ServiceLocator 
 {
-    public static ServiceLocator Service;
+    public static ServiceLocator Instance => _instance ??= new();
 
+    private static ServiceLocator _instance;
     private static readonly Dictionary<string, IService> _allService = new Dictionary<string, IService>();
-
-    public static void Initialization()
-    {
-        Service = new();
-    }
-
-    public T Get<T>() where T : IService
-    {
-        string key = typeof(T).Name;
-
-        if (!_allService.ContainsKey(key))
-        {
-            Debug.LogError("Serice not find");
-        }
-
-        return (T)_allService[key];
-    }
 
     public void Rigister<T>(T service) where T : IService
     {
@@ -45,5 +29,17 @@ public class ServiceLocator
         {
             _allService.Remove(key);
         }
+    }
+
+    public T Get<T>() where T : IService
+    {
+        string key = typeof(T).Name;
+
+        if (!_allService.ContainsKey(key))
+        {
+            Debug.LogError("Serice not find");
+        }
+
+        return (T)_allService[key];
     }
 }

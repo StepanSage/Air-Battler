@@ -11,14 +11,12 @@ public class Damageable : MonoBehaviour, IDamageable
 
     public bool IsAlive => _currentHealth > 0;
 
-    public event Action<int, int> OnHealthChange; 
+    public event Action<int, int> OnHealthChange;
+    public event Action OnChangHealth;
     public event Action OnDeath;
 
 
-    private void Start()
-    {
-        _currentHealth = _maxHealth;
-    }
+    private void Start() => _currentHealth = _maxHealth;
 
     public void TakeDamage(int damage)
     {
@@ -27,6 +25,7 @@ public class Damageable : MonoBehaviour, IDamageable
 
         _currentHealth = Mathf.Max(0, _currentHealth - damage);
         OnHealthChange?.Invoke(_currentHealth, _maxHealth);
+        OnChangHealth?.Invoke();
 
         Die();
 

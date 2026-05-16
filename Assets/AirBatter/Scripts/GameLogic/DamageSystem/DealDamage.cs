@@ -8,9 +8,5 @@ public class DealDamage : MonoBehaviour
     public int Damage => _damage;
     public bool DestroyOnHit => _destroyOnHit;
  
-    public void SetDamage(int damage)
-    {
-        _damage = damage;
-    }
-
+    public void SetDamage(int damage) => _damage = damage;
 }
