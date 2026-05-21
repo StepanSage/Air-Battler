@@ -14,7 +14,7 @@ public class ServiceLocator
 
         if(_allService.ContainsKey(key))
         {
-            Debug.LogError("Serice is rigister");
+            Debug.LogError($"Serice is rigister {key}");
             return;
         }
 
@@ -37,7 +37,7 @@ public class ServiceLocator
 
         if (!_allService.ContainsKey(key))
         {
-            Debug.LogError("Serice not find");
+            Debug.LogError($"Serice not find {key}");
         }
 
         return (T)_allService[key];
