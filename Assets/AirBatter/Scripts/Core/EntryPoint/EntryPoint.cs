@@ -9,6 +9,7 @@ public class EntryPoint : MonoBehaviour
     [SerializeField] private string _nameScence;
 
     private IEventBus _eventBus;
+    private IUIManager _uIManager;
 
     private void Awake() 
     {
@@ -18,6 +19,7 @@ public class EntryPoint : MonoBehaviour
     private void OnEnable()
     {
         _eventBus = ServiceLocator.Instance.Get<IEventBus>();
+         _uIManager = ServiceLocator.Instance.Get<IUIManager>();
 
         if(_eventBus == null)
         {
@@ -33,12 +35,16 @@ public class EntryPoint : MonoBehaviour
 
     private void Start()
     {
+
         _eventBus.Publish(new LoadScenceRequst(
             scence: _nameScence,
             addivite: false,
-            activateOnLoad : true,
-            canclePrevious : true
-            )) ;
+            activateOnLoad: true,
+            canclePrevious: true
+            ));
+
+        _uIManager.HideScreen<LoadScreen>();
+
     }
 
     private void OnDisable()
