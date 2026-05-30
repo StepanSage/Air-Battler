@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Xml.Linq;
 using UnityEngine;
 
 public class UIManager : IUIManager
@@ -24,13 +25,14 @@ public class UIManager : IUIManager
         {
             if(screen != null)
             {
+                screen.Initialaze();
                 _screens.Add(screen.GetType().Name, screen);
             }
                 
         }
 
         if(_curentScreen != null )
-            _screens.Add(_curentScreen.name, _curentScreen);
+            _screens.Add(_curentScreen.GetType().Name, _curentScreen);
     }
 
     public BaseScreen GetScreen<T>() where T : BaseScreen

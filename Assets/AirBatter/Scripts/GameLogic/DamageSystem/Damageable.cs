@@ -6,6 +6,7 @@ public class Damageable : MonoBehaviour, IDamageable
     [SerializeField] private int _maxHealth = 10;
 
     private int _currentHealth = 0;
+    private IEventBus _eventBus;
 
     public int MaxHealth => _maxHealth;
 
@@ -16,7 +17,11 @@ public class Damageable : MonoBehaviour, IDamageable
     public event Action OnDeath;
 
 
-    private void Start() => _currentHealth = _maxHealth;
+    private void Start()
+    {
+        _eventBus = ServiceLocator.Instance.Get<IEventBus>();
+        _currentHealth = _maxHealth;
+    }
 
     public void TakeDamage(int damage)
     {
@@ -35,6 +40,7 @@ public class Damageable : MonoBehaviour, IDamageable
     {
         if (_currentHealth <= 0)
         {
+            _eventBus.Publish(new ExpEvent());
             OnDeath?.Invoke();
             Destroy(gameObject);
         }

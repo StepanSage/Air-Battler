@@ -35,6 +35,7 @@ public class EntryPoint : MonoBehaviour
 
     private void Start()
     {
+        _uIManager.HideScreen<LoadScreen>();
 
         _eventBus.Publish(new LoadScenceRequst(
             scence: _nameScence,
@@ -43,7 +44,6 @@ public class EntryPoint : MonoBehaviour
             canclePrevious: true
             ));
 
-        _uIManager.HideScreen<LoadScreen>();
 
     }
 
