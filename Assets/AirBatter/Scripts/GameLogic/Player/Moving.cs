@@ -5,45 +5,47 @@ using UnityEngine;
 public class Moving : MonoBehaviour
 {
     [Header("Настройки движения")]
-    [SerializeField] private float moveDistance = 2f;      // Расстояние за один свайп
-    [SerializeField] private float moveSpeed = 10f;        // Скорость анимации движения
-    [SerializeField] private float leftBorder = -8f;       // Левая граница
-    [SerializeField] private float rightBorder = 8f;       // Правая граница
+    [SerializeField] private float moveDistance = 2f;      
+    [SerializeField] private float moveSpeed = 10f;        
+    [SerializeField] private float leftBorder = -8f;      
+    [SerializeField] private float rightBorder = 8f;      
 
     [Header("Анимация")]
     [SerializeField] private Animator _animator;
     [SerializeField] private float _timeClip;
 
     
-
     [Header("Настройки свайпа")]
-    [SerializeField] private float minSwipeDistance = 50f; // Минимальная длина свайпа (в пикселях)
+    [SerializeField] private float minSwipeDistance = 50f;
+
+    [Header("SFX")]
+    [SerializeField] private AudioClip _audioClip;
 
     private Vector2 touchStartPos;
     private Vector3 targetPosition;
     private bool isSwiping = false;
     private bool isMoving = false;
+    private IAudioManager _audioManager;
 
-    // Перечисление направлений свайпа
     private enum SwipeDirection { None, Left, Right }
 
-    void Start()
+    private void Start()
     {
-        // Стартовая позиция корабля
         targetPosition = transform.position;
+        _audioManager = ServiceLocator.Instance.Get<IAudioManager>();
     }
 
     void Update()
     {
-        // Обрабатываем ввод
+        
         HandleSwipeInput();
 
-        // Плавно двигаем корабль к целевой позиции
+        
         if (isMoving)
         {
             transform.position = Vector3.MoveTowards(transform.position, targetPosition, moveSpeed * Time.deltaTime);
 
-            // Если достигли цели, останавливаем движение
+            
             if (Vector3.Distance(transform.position, targetPosition) < 0.01f)
             {
                 isMoving = false;
@@ -52,7 +54,7 @@ public class Moving : MonoBehaviour
         }
     }
 
-    void HandleSwipeInput()
+    private void HandleSwipeInput()
     {
         if (Input.touchCount > 0)
         {
@@ -80,6 +82,7 @@ public class Moving : MonoBehaviour
 
                             // Двигаем корабль
                             MoveShip(direction);
+                            
                         }
                         isSwiping = false;
                     }
@@ -92,10 +95,10 @@ public class Moving : MonoBehaviour
         }
     }
 
-    // Определяем горизонтальное направление свайпа
+    
     private SwipeDirection GetSwipeDirection(Vector2 delta)
     {
-        // Игнорируем вертикальные свайпы, важна только горизонталь
+        
         if (Mathf.Abs(delta.x) > Mathf.Abs(delta.y))
         {
             return delta.x > 0 ? SwipeDirection.Right : SwipeDirection.Left;
@@ -103,7 +106,7 @@ public class Moving : MonoBehaviour
         return SwipeDirection.None;
     }
 
-    // Перемещаем корабль в зависимости от свайпа
+   
     private void MoveShip(SwipeDirection direction)
     {
         Vector3 newPosition = targetPosition;
@@ -123,15 +126,15 @@ public class Moving : MonoBehaviour
                 break;
 
             default:
-                return; // Ничего не делаем
+                return; 
         }
-        
+
+        _audioManager.PlaySfx(_audioClip, 0.5f);
 
 
-        // Ограничиваем движение границами
         newPosition.x = Mathf.Clamp(newPosition.x, leftBorder, rightBorder);
 
-        // Если позиция изменилась, начинаем движение
+       
         if (newPosition != targetPosition)
         {
             targetPosition = newPosition;
@@ -139,7 +142,7 @@ public class Moving : MonoBehaviour
         }
     }
 
-    // Для отладки на компьютере (клик мышкой)
+
     void OnGUI()
     {
         if (Input.GetMouseButtonDown(0))

@@ -1,10 +1,12 @@
 using System.Collections;
 using UnityEngine;
 
+
 public class SpawnMeteor : MonoBehaviour
 {
     [SerializeField] private float _timeSpawnMeteor;
     [SerializeField] private GameObject _PrefabMeteor;
+
     private void Start()
     {
         StartCoroutine(Spawn());

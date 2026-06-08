@@ -41,10 +41,17 @@ public class Damageable : MonoBehaviour, IDamageable
         if (_currentHealth <= 0)
         {
             _eventBus.Publish(new ExpEvent());
+            ResetHealth();
             OnDeath?.Invoke();
-            Destroy(gameObject);
+            gameObject.SetActive(false);
         }
            
             
+    }
+
+    private void ResetHealth()
+    {
+        _currentHealth = _maxHealth;
+        OnHealthChange?.Invoke(_currentHealth, _maxHealth);
     }
 }

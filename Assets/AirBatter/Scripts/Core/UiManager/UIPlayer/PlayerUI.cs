@@ -6,18 +6,24 @@ public class PlayerUI : BaseScreen
     [SerializeField] private Slider _expBar;
 
     private IEventBus _eventBus;
+    private IUIManager _ulManager;
+    private IGamePause _gamePause;
+    private BaseScreen _UiCards;
     private int _currentCountExp = 0;
     private int _amountRequiredExp = 10;
     private int _countAddExp = 1;
 
     private void Start()
     {
+        _ulManager = ServiceLocator.Instance.Get<IUIManager>();
+        _UiCards = _ulManager.GetScreen<UiCards>();
         _eventBus = ServiceLocator.Instance.Get<IEventBus>();
         _eventBus.Subscribe<ExpEvent>(AddExp);
+        _gamePause = ServiceLocator.Instance.Get<IGamePause>();
+
 
         ExpProgrees();
 
-        Debug.Log($"value bar{_expBar.value}");
     }
 
     private void AddExp(ExpEvent eventExp)
@@ -27,7 +33,6 @@ public class PlayerUI : BaseScreen
         ExpProgrees();
         LevelUP();
 
-        Debug.Log($"exp {_currentCountExp}");
     }
 
     private void LevelUP()
@@ -36,11 +41,17 @@ public class PlayerUI : BaseScreen
         {
             _currentCountExp = 0;
             _amountRequiredExp *= 2;
-
-            // логика появление карточек улучшений на экране
+            _UiCards.Show();
+            _gamePause.Pause();
+            
         }
     }
 
     private void ExpProgrees() => _expBar.value = (float)_currentCountExp / _amountRequiredExp;
         
+}
+
+public struct OnLevelUpEvent : IEvent
+{
+
 }

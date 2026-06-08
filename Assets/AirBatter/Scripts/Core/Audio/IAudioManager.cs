@@ -8,6 +8,10 @@ public interface IAudioManager: IService
 
     public void PlayMusic(UnityEngine.AudioClip clip, bool loop = false, float fadeSecong=0f);
     public void StopMusic(float fadeSecong = 0f);
+
+    /// <summary>
+    /// plays SFX once
+    /// </summary>
     public void PlaySfx(UnityEngine.AudioClip clip, float volum = 1f);
 
 

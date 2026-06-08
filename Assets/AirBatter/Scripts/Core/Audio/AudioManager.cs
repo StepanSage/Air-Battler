@@ -34,6 +34,7 @@ public class AudioManager : IAudioManager
         _musicSource = _rootGO.AddComponent<AudioSource>();
         _musicSource.playOnAwake = false;
         _musicSource.loop = true;
+        
 
         _sfxSource = _rootGO.AddComponent<AudioSource>();
         _sfxSource.playOnAwake = false;
@@ -41,8 +42,6 @@ public class AudioManager : IAudioManager
 
         ApplayMixerVolume(_musicParam, MusicVolume);
         ApplayMixerVolume(_sfxParam, SfxVolume);
-
-
 
     }
 
@@ -88,7 +87,8 @@ public class AudioManager : IAudioManager
 
     public void PlaySfx(AudioClip clip, float volum = 1)
     {
-        if (clip != null) return;
+        if (clip == null) return;
+
 
         _sfxSource?.PlayOneShot(clip, Mathf.Clamp01(volum));
 

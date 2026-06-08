@@ -9,43 +9,53 @@ public class BulletSpawner : MonoBehaviour
     [Header("Audio")]
     [SerializeField] private AudioClip _clip;
     [SerializeField] private AudioSource _audioSource;
+    [Range(0, 1)] [SerializeField] private float _volumeShotSFX = 0.5f;
+
     [Range(0.5f, 3f)] [SerializeField] private float _spawnInterval;
 
+    private IAudioManager _audioManager;
     private IPoolObject<GameObject> _poolObject;
     private GameObject _storageBullet;
    
 
     private void Start()
     {
+        Initialized();
+        StartCoroutine(StartSpawn()); 
+    }
+
+    private void Initialized()
+    {
+        _audioManager = ServiceLocator.Instance.Get<IAudioManager>();
         _poolObject = new PoolObject<GameObject>(() => Spawn());
         _storageBullet = new GameObject("Storage_Bullet");
-        StartCoroutine(StartSpawn());
-        
-        
     }
+
     private IEnumerator StartSpawn()
     {
         while (true)
         {
-
-            GameObject bullet = _poolObject.Get().gameObject;
-
-            if(bullet.activeInHierarchy == false)
-            {
-                bullet.transform.position = _spawnPoint.position;
-                bullet.SetActive(true);
-            }
-            else
-            {
-                _poolObject.Prefarm(1);
-            }
-
-            PlayAudioShoot();
-            _poolObject.Return(bullet);
+            WorkPool();
+            PlayAudioShot();
 
             yield return new WaitForSeconds(_spawnInterval);
-            Debug.Log("buller is spawn");
         }
+    }
+
+    private void WorkPool()
+    {
+        GameObject bullet = _poolObject.Get().gameObject;
+
+        if (bullet.activeInHierarchy == false)
+        {
+            bullet.transform.position = _spawnPoint.position;
+            bullet.SetActive(true);
+        }
+        else
+        {
+            _poolObject.Prefarm(1);
+        }
+        _poolObject.Return(bullet);
     }
 
     private GameObject Spawn()
@@ -57,10 +67,11 @@ public class BulletSpawner : MonoBehaviour
 
   
 
-    private void PlayAudioShoot()
+    private void PlayAudioShot()
     {
-        _audioSource.pitch = Random.Range(0.9f, 1.10f);
-        _audioSource.PlayOneShot(_clip);
+        _audioManager.PlaySfx(_clip, _volumeShotSFX);
+        //_audioSource.pitch = Random.Range(0.9f, 1.10f);
+        //_audioSource.PlayOneShot(_clip);
     }
 
 }

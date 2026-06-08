@@ -413,3 +413,5 @@ MonoBehaviour:
   _targetLayer:
     serializedVersion: 2
     m_Bits: 72
+  _audioClip: {fileID: 8300000, guid: 1289f2a3117ae6047aedad31fdf683a6, type: 3}
+  _isPlaySFX: 0
