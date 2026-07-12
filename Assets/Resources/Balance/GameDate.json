@@ -1,0 +1,33 @@
+{
+    "Balance":
+    [
+         {
+            "Level" : 0,
+            "RequiredKill" :0,
+            "EnemyHealh" : 4
+        },
+        {
+            "Level" : 1,
+            "RequiredKill" :10,
+            "EnemyHealh" : 6
+        },
+        {
+            
+            "Level" : 2,
+             "RequiredKill" :20,
+            "EnemyHealh" : 8
+        },
+        {
+            
+            "Level" : 3,
+             "RequiredKill" :40,
+            "EnemyHealh" : 12
+        },
+        {
+            
+            "Level" : 4,
+             "RequiredKill" :80,
+            "EnemyHealh" : 16
+        }
+    ]
+}

@@ -11,14 +11,15 @@ public class PlayerUI : BaseScreen
     private BaseScreen _UiCards;
     private int _currentCountExp = 0;
     private int _amountRequiredExp = 10;
-    private int _countAddExp = 1;
+    [SerializeField] private int _countAddExp = 1;
 
     private void Start()
     {
         _ulManager = ServiceLocator.Instance.Get<IUIManager>();
         _UiCards = _ulManager.GetScreen<UiCards>();
         _eventBus = ServiceLocator.Instance.Get<IEventBus>();
-        _eventBus.Subscribe<ExpEvent>(AddExp);
+        _eventBus.Subscribe<AddExperineceEvent>(AddExp);
+        _eventBus.Subscribe<AddBonusExperineceEvent>(AddBonuseExperinece);
         _gamePause = ServiceLocator.Instance.Get<IGamePause>();
 
 
@@ -26,13 +27,12 @@ public class PlayerUI : BaseScreen
 
     }
 
-    private void AddExp(ExpEvent eventExp)
+    private void AddExp(AddExperineceEvent eventExp)
     {
         _currentCountExp += _countAddExp;
 
         ExpProgrees();
         LevelUP();
-
     }
 
     private void LevelUP()
@@ -47,11 +47,12 @@ public class PlayerUI : BaseScreen
         }
     }
 
+    private void AddBonuseExperinece(AddBonusExperineceEvent addBonusExperineceEvent)
+    {
+        _countAddExp += addBonusExperineceEvent.BonusExperience;
+    }
+
     private void ExpProgrees() => _expBar.value = (float)_currentCountExp / _amountRequiredExp;
         
 }
 
-public struct OnLevelUpEvent : IEvent
-{
-
-}

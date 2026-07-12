@@ -206,10 +206,10 @@ GameObject:
   - component: {fileID: 7316378366659427192}
   - component: {fileID: 4302436801012022118}
   - component: {fileID: 8908432452254212228}
-  - component: {fileID: 735145817699955900}
   - component: {fileID: -5395769923681032558}
   - component: {fileID: -6514550739763878132}
   - component: {fileID: -5593435456590851693}
+  - component: {fileID: 5546923660483944365}
   m_Layer: 3
   m_Name: meteor
   m_TagString: Untagged
@@ -357,19 +357,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &735145817699955900
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7679957388420028453}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1088036c5f0a5b843a87b0e1e6fa1309, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _maxHealth: 7
 --- !u!114 &-5395769923681032558
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -382,7 +369,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 44d4e4de89b70414a9cc0a5eb47b90b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _health: {fileID: 735145817699955900}
+  _health: {fileID: 5546923660483944365}
   _healthText: {fileID: 8566572462392603814}
 --- !u!114 &-6514550739763878132
 MonoBehaviour:
@@ -415,3 +402,18 @@ MonoBehaviour:
     m_Bits: 72
   _audioClip: {fileID: 8300000, guid: 1289f2a3117ae6047aedad31fdf683a6, type: 3}
   _isPlaySFX: 0
+  _whoDamage: 2
+--- !u!114 &5546923660483944365
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7679957388420028453}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92b1bc2d1af0ed64baea1b3410e6f013, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _maxHealth: 7
+  _currentHealth: 0

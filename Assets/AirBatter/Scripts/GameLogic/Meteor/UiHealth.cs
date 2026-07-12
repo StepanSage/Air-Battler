@@ -9,7 +9,7 @@ public class UiHealth : MonoBehaviour
 
     private void Start()
     {
-        _health.OnHealthChange += ChangeHealth;
+        _health.OnHealthChangeRange += ChangeHealth;
         ChangeUI(_health.MaxHealth);
         
     }
@@ -27,6 +27,6 @@ public class UiHealth : MonoBehaviour
 
     private void OnDestroy()
     {
-        _health.OnHealthChange -= ChangeHealth;
+        _health.OnHealthChangeRange -= ChangeHealth;
     }
 }

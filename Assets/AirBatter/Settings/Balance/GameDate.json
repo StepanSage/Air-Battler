@@ -1,0 +1,14 @@
+{
+    "GameData":
+    [
+        {
+            "Level" : 1,
+            "EnemyHealh" : 6
+        },
+        {
+            
+            "Level" : 2,
+            "EnemyHealh" : 8
+        }
+    ]
+}

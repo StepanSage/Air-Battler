@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: b4e395d2321bc8b4b928bb890da4a468
+guid: 4f64b4280a69d9b4188ada29bcb9b297
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -34,7 +34,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -123,22 +123,127 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Air1_6
+      name: Shop air battler_0
       rect:
         serializedVersion: 2
-        x: 240
-        y: 200
-        width: 666
-        height: 725
+        x: 292
+        y: 422
+        width: 220
+        height: 190
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2052e5876a05e6d489de7c58e35466e1
-      internalID: -2014313414
+      spriteID: dc7da9b1e52b74f44b089ac32b06f16b
+      internalID: 163982657
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Shop air battler_1
+      rect:
+        serializedVersion: 2
+        x: 2
+        y: 222
+        width: 160
+        height: 161
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 59, y: 41, z: 0, w: 42}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d9d507c9594729e4580f5fd55f10e78c
+      internalID: 2016169296
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Shop air battler_2
+      rect:
+        serializedVersion: 2
+        x: 322
+        y: 222
+        width: 160
+        height: 160
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1f6c9394979d8af4b93053d2cf1510e0
+      internalID: 1186519007
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Shop air battler_3
+      rect:
+        serializedVersion: 2
+        x: 492
+        y: 222
+        width: 160
+        height: 160
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 94c87724c03468a4a8e21dc5c1d3fec7
+      internalID: 105639871
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Shop air battler_4
+      rect:
+        serializedVersion: 2
+        x: 172
+        y: 72
+        width: 190
+        height: 130
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 69, y: 31, z: 63, w: 18}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 11efb221768725b4daae61e85f4c7943
+      internalID: -357288282
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Shop air battler_5
+      rect:
+        serializedVersion: 2
+        x: 372
+        y: 72
+        width: 190
+        height: 130
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 67282b6a85e82b54cbcd988376c0d475
+      internalID: 1743431885
       vertices: []
       indices: 
       edges: []
@@ -154,19 +259,12 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Air1_0: 2122061362
-      Air1_1: 21796127
-      Air1_10: 1983012463
-      Air1_11: -1880237625
-      Air1_12: -533874245
-      Air1_2: 829135790
-      Air1_3: 220999604
-      Air1_4: 844917180
-      Air1_5: -1494554767
-      Air1_6: -2014313414
-      Air1_7: 1384628283
-      Air1_8: -382051289
-      Air1_9: 97804949
+      Shop air battler_0: 163982657
+      Shop air battler_1: 2016169296
+      Shop air battler_2: 1186519007
+      Shop air battler_3: 105639871
+      Shop air battler_4: -357288282
+      Shop air battler_5: 1743431885
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -7,6 +7,10 @@ public class DealDamage : MonoBehaviour
 
     public int Damage => _damage;
     public bool DestroyOnHit => _destroyOnHit;
- 
-    public void SetDamage(int damage) => _damage = damage;
+
+    public virtual void SetDamage(int damage)
+    {
+        _damage = damage;
+        Debug.Log("Улучшение произошло");
+    }
 }

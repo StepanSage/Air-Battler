@@ -6,6 +6,7 @@ public class CollisionHandlerDamage : MonoBehaviour
     [SerializeField] private LayerMask _targetLayer;
     [SerializeField] private AudioClip _audioClip;
     [SerializeField] private bool _isPlaySFX = false;
+    [SerializeField] private WhoDamage _whoDamage;
 
     protected DealDamage _deal;
 
@@ -27,7 +28,7 @@ public class CollisionHandlerDamage : MonoBehaviour
     {
         IDamageable damageable = target.GetComponent<IDamageable>();
 
-        damageable?.TakeDamage(_deal.Damage);
+        damageable?.TakeDamage(_deal.Damage, _whoDamage);
 
         if (_isPlaySFX == true)
         {

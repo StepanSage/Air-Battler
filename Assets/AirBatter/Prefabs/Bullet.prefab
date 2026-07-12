@@ -11,10 +11,10 @@ GameObject:
   - component: {fileID: 7647543154947747241}
   - component: {fileID: 6390801792698599058}
   - component: {fileID: 5868077933751343575}
-  - component: {fileID: 4758031920982718215}
   - component: {fileID: -5478106902839254255}
   - component: {fileID: -3498147453693321541}
   - component: {fileID: -7909222722024743736}
+  - component: {fileID: -7774885359338721815}
   m_Layer: 0
   m_Name: Bullet
   m_TagString: Untagged
@@ -134,20 +134,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.011403393, y: 0.032010745}
   m_EdgeRadius: 0
---- !u!114 &4758031920982718215
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4789353494369305646}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6287e175185dd55428890e2bcbda90f7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _damage: 1
-  _destroyOnHit: 1
 --- !u!114 &-5478106902839254255
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -165,6 +151,7 @@ MonoBehaviour:
     m_Bits: 8
   _audioClip: {fileID: 8300000, guid: 1289f2a3117ae6047aedad31fdf683a6, type: 3}
   _isPlaySFX: 1
+  _whoDamage: 1
 --- !u!114 &-3498147453693321541
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -193,3 +180,17 @@ MonoBehaviour:
   _object: {fileID: 0}
   _stretching: {x: 5, y: 20}
   _duration: 0.3
+--- !u!114 &-7774885359338721815
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4789353494369305646}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da16702410da9ed4cac4393c90846742, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _damage: 1
+  _destroyOnHit: 1
