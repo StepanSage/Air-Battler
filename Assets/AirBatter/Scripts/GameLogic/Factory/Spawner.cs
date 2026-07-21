@@ -6,7 +6,7 @@ public class Spawner : MonoBehaviour
     [SerializeField] private SpawnableFactory _spawnableFactory;
     [SerializeField][Range (0, 10)] private float _spawnInterval;
     [SerializeField] private bool _isStart = true;
-    
+     
 
     private void Start()
     {

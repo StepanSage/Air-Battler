@@ -9,7 +9,4 @@ public class VisualGold : MonoBehaviour, IGoldView
     {
         _gold.text = count.ToString();
     }
-
-    
-   
 }

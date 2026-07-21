@@ -4,7 +4,7 @@ using UnityEngine;
 [DefaultExecutionOrder(0)]
 public class EntryPoint : MonoBehaviour
 {
-    [Header("Start Flow")]
+    [Header("OnEnable Flow")]
     [SerializeField] private bool _dontDestroyOnLoad = false;
     [SerializeField] private string _nameScence;
 

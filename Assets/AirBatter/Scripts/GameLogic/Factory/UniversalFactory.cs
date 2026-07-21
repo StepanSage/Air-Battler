@@ -11,7 +11,7 @@ public class UniversalFactory : SpawnableFactory
     private GameObject _storage;
     
 
-    protected override void Start()
+    protected override void OnEnable()
     {
         if(_object!= null && _spawnPoint != null)
             Initialized();

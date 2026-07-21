@@ -6,7 +6,7 @@ public abstract class SpawnableFactory : MonoBehaviour
 {
     public  Action OnSpawn;
 
-    protected abstract void Start();
+    protected abstract void OnEnable();
 
     public abstract GameObject Spawn();
 }

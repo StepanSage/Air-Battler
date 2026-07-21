@@ -32,7 +32,7 @@ public class CollisionHandlerDamage : MonoBehaviour
 
         if (_isPlaySFX == true)
         {
-            _audioManager.PlaySfx(_audioClip, 1f);
+            _audioManager.PlaySfx(_audioClip, 0.6f);
             Debug.Log("Music play now");
         }
            

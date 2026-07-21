@@ -149,7 +149,7 @@ MonoBehaviour:
   _targetLayer:
     serializedVersion: 2
     m_Bits: 8
-  _audioClip: {fileID: 8300000, guid: 1289f2a3117ae6047aedad31fdf683a6, type: 3}
+  _audioClip: {fileID: 8300000, guid: ad0f95f8fd845d64dae58327c8f773eb, type: 3}
   _isPlaySFX: 1
   _whoDamage: 1
 --- !u!114 &-3498147453693321541

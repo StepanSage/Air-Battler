@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class GoldBank : MonoBehaviour
+public class GoldBank : MonoBehaviour, IBuyProduct
 {
     [SerializeField] private IGoldView _visualGold;
 
@@ -16,8 +16,6 @@ public class GoldBank : MonoBehaviour
         _eventBus?.Subscribe<RemoveGoldEvent>(Remove);
         UpdateUI();
     }
-
-   
 
     public void Add(AddGoldEvent addge)
     {
@@ -38,4 +36,19 @@ public class GoldBank : MonoBehaviour
         _visualGold.RendererGold(Gold);
     }
 
+    public bool Buy(uint price)
+    {
+        price = price < 0 ? 0 : price;
+
+        if((int)Gold - (int)price > 0)
+        {
+            Gold = Gold - price;
+            UpdateUI();
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 }

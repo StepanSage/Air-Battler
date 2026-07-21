@@ -4,9 +4,9 @@ public class BulletFactory : UniversalFactory
 {
     private IEventBus _eventBus;
     
-    protected override void Start()
+    protected override void OnEnable()
     {
-        base.Start();
+        base.OnEnable();
         _eventBus = ServiceLocator.Instance.Get<IEventBus>();
     }
 
