@@ -23,5 +23,6 @@ public class LodingShutter : MonoBehaviour
     {
         _lodingShutter.DOFade(0f, 1f);
         _callBack?.Invoke();
+        gameObject.SetActive(false);
     } 
 }

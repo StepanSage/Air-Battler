@@ -5,12 +5,10 @@ namespace Assets.AirBatter.Scripts.GameLogic.Shop
 {
     public class ShopController : MonoBehaviour
     {
-        [SerializeField] private List<DataProduct> _airplanes;
+        [SerializeField] private GameDataManager _dataManager;
         [SerializeField] private ShopView _shopView;
-        [SerializeField] private SaveShop _saveShop;
         [SerializeField] private Component _buyProductComponent;
         [Space(10)]
-        [SerializeField] private GameObject _buttonCanvas;
         [SerializeField] private GameObject _playCanvas;
         [SerializeField] private GameObject _settingCanvas;
         [Space(10)]
@@ -18,6 +16,7 @@ namespace Assets.AirBatter.Scripts.GameLogic.Shop
         [SerializeField] private AudioClip _buy;
         [SerializeField] private AudioClip _refusal;
 
+        private ISaveSystem _saveSystem;
         private DataProduct _selectAirplane;
         private DataProduct _displayAirplane; 
         private int index = 0;
@@ -40,7 +39,7 @@ namespace Assets.AirBatter.Scripts.GameLogic.Shop
             _eventBus = ServiceLocator.Instance.Get<IEventBus>();
             _buyProduct = _buyProductComponent.GetComponent<IBuyProduct>();
             _audioManager = ServiceLocator.Instance.Get<IAudioManager>();
-
+            _saveSystem = ServiceLocator.Instance.Get<ISaveSystem>();
             if(_buyProduct == null) 
                 Debug.LogError("Интерфейс IBuyProduct не найтден");
 
@@ -63,9 +62,9 @@ namespace Assets.AirBatter.Scripts.GameLogic.Shop
                 SoundPlay(_buy);
                 Debug.Log("операция по покупеке самолета прошла успешно");
                 _eventBus.Publish<BuyAirplaneEvent>(new(_displayAirplane, true));
-                var Save = _saveShop.DataShop();
+                var Save = _saveSystem.GetData();
                 Save.ListID.Add(_displayAirplane.ID);
-                _saveShop.SaveGame();
+                _saveSystem.Save();
             }
             else
             {
@@ -78,6 +77,8 @@ namespace Assets.AirBatter.Scripts.GameLogic.Shop
         {
             _selectAirplane = _displayAirplane;
             _eventBus.Publish<SelectAirplaneEvent>(new(_selectAirplane));
+            _saveSystem.GetData().DesplayAirplanIndex =_selectAirplane.ID;
+            _saveSystem.Save();
             Close();
         }
 
@@ -97,13 +98,13 @@ namespace Assets.AirBatter.Scripts.GameLogic.Shop
         {
             SoundPlay(_button);
             CalulateIndex();
-            _displayAirplane = _airplanes[index];
+            _displayAirplane = _dataManager.Airplanes[index];
             CheckAndDisplayAirplane();     
         }
 
         private void CheckAndDisplayAirplane()
         {
-            bool isPurchased = _saveShop.DataShop().ListID.Contains(_displayAirplane.ID);
+            bool isPurchased = _saveSystem.GetData().ListID.Contains(_displayAirplane.ID);
 
             if (isPurchased)
             {
@@ -120,9 +121,9 @@ namespace Assets.AirBatter.Scripts.GameLogic.Shop
             SoundPlay(_button);
             StartDisplay();
             gameObject.SetActive(false);
-            _buttonCanvas?.SetActive(true);
             _playCanvas?.SetActive(true);
             _settingCanvas?.SetActive(true);
+            _saveSystem.Save();
         }
         private void StartDisplay()
         {
@@ -134,13 +135,13 @@ namespace Assets.AirBatter.Scripts.GameLogic.Shop
             int minValue = 0;
             
             if (index < minValue)
-                index = _airplanes.Count-1;
-            else if (index >= _airplanes.Count)
+                index = _dataManager.Airplanes.Count-1;
+            else if (index >= _dataManager.Airplanes.Count)
                 index = 0;
         }
         private void Display(int ID, bool IsBuy)
         {
-            _displayAirplane = _airplanes[ID];
+            _displayAirplane = _dataManager.Airplanes[ID];
             _eventBus?.Publish<SwapAirPlaneEvent>(new(_displayAirplane, IsBuy));
         }
 

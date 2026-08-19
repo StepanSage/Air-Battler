@@ -1,21 +1,12 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-namespace Assets.AirBatter.Scripts.GameLogic.Shop
-{
-    public class SaveShop : MonoBehaviour
+public class SaveSystem : ISaveSystem
     {
-
-
         private const string SAVE_KEY = "PlayerData";
         private Data data = new Data();
 
-        private void Awake()
-        {
-            LoadGame();
-        }
-
-        public void SaveGame()
+        public void Save()
         {
             string json = JsonUtility.ToJson(data);
             PlayerPrefs.SetString(SAVE_KEY, json);
@@ -23,7 +14,7 @@ namespace Assets.AirBatter.Scripts.GameLogic.Shop
             Debug.Log("Игра сохранена!");
         }
 
-        public void LoadGame()
+        public void Load()
         {
             if (PlayerPrefs.HasKey(SAVE_KEY))
             {
@@ -39,6 +30,5 @@ namespace Assets.AirBatter.Scripts.GameLogic.Shop
             }
         }
 
-        public Data DataShop() => data;
+        public Data GetData() => data;
     }
-}

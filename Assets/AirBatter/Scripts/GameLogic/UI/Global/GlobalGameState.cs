@@ -11,13 +11,19 @@ public class GlobalGameState : MonoBehaviour
     {
         Menu();
     }
+    
+    public void Set(GameState state)
+    {
+        if(GameState.Menu == state)
+            OpenMenu();
+    }
 
     public void Play()
     {
         Loading(() => Game());
     }
 
-    public void OpenMenu()
+    private void OpenMenu()
     {
         Loading(() => Menu());
     }
@@ -38,4 +44,12 @@ public class GlobalGameState : MonoBehaviour
         _menu.SetActive(false);
     }
 
+}
+
+public enum GameState
+{
+    None,
+    Menu,
+    Game,
+    Setting
 }

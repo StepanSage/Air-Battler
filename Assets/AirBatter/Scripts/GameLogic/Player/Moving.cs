@@ -5,168 +5,114 @@ using UnityEngine;
 public class Moving : MonoBehaviour
 {
     [Header("Настройки движения")]
-    [SerializeField] private float moveDistance = 2f;      
-    [SerializeField] private float moveSpeed = 10f;        
-    [SerializeField] private float leftBorder = -8f;      
-    [SerializeField] private float rightBorder = 8f;      
+    [SerializeField] private float _smoothSpeed = 8f; // Скорость следования
 
-    [Header("Анимация")]
-    [SerializeField] private Animator _animator;
-    [SerializeField] private float _timeClip;
+    [Header("Настройки спавна")]
+    [SerializeField] private Vector2 _spawnPosition = new Vector2(0, 0); // Точка спавна
+    [SerializeField] private bool _spawnAtStart = true; // Спавниться при старте
 
-    
-    [Header("Настройки свайпа")]
-    [SerializeField] private float minSwipeDistance = 50f;
+    private Vector3 _targetPosition;
+    private bool _isMoving = false;
 
-    [Header("SFX")]
-    [SerializeField] private AudioClip _audioClip;
+    // Границы экрана (вычисляются автоматически)
+    private float _minX;
+    private float _maxX;
+    private float _fixedY; // Фиксированная позиция по Y
 
-    private Vector2 touchStartPos;
-    private Vector3 targetPosition;
-    private bool isSwiping = false;
-    private bool isMoving = false;
-    private IAudioManager _audioManager;
-
-    private enum SwipeDirection { None, Left, Right }
-
-    private void Start()
+    void Start()
     {
-        targetPosition = transform.position;
-        _audioManager = ServiceLocator.Instance.Get<IAudioManager>();
+        // Вычисляем границы экрана в мировых координатах
+        Camera cam = Camera.main;
+
+        // Получаем размеры экрана в мировых единицах
+        float screenHeight = cam.orthographicSize * 2f;
+        float screenWidth = screenHeight * cam.aspect;
+
+        // Вычисляем границы только по X (по Y не ограничиваем, так как он фиксирован)
+        _minX = -screenWidth / 2f;
+        _maxX = screenWidth / 2f;
+
+        // Запоминаем фиксированную позицию по Y
+        if (_spawnAtStart)
+        {
+            // Ограничиваем точку спавна по X, Y берём из _spawnPosition
+            float clampedSpawnX = Mathf.Clamp(_spawnPosition.x, _minX, _maxX);
+            _fixedY = _spawnPosition.y;
+
+            _targetPosition = new Vector3(clampedSpawnX, _fixedY, 0);
+            transform.position = _targetPosition;
+        }
+        else
+        {
+            // Используем текущую позицию в сцене
+            _fixedY = transform.position.y;
+            _targetPosition = transform.position;
+        }
     }
 
     void Update()
     {
-        
-        HandleSwipeInput();
+        // Получаем позицию касания (палец или мышь)
+        Vector3 screenPos = Vector3.zero;
+        bool isTouching = false;
 
-        
-        if (isMoving)
-        {
-            transform.position = Vector3.MoveTowards(transform.position, targetPosition, moveSpeed * Time.deltaTime);
-
-            
-            if (Vector3.Distance(transform.position, targetPosition) < 0.01f)
-            {
-                isMoving = false;
-                transform.position = targetPosition;
-            }
-        }
-    }
-
-    private void HandleSwipeInput()
-    {
         if (Input.touchCount > 0)
         {
             Touch touch = Input.GetTouch(0);
+            screenPos = Camera.main.ScreenToWorldPoint(touch.position);
+            screenPos.z = 0;
+            isTouching = true;
+        }
+        else if (Input.GetMouseButton(0))
+        {
+            screenPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            screenPos.z = 0;
+            isTouching = true;
+        }
 
-            switch (touch.phase)
-            {
-                case TouchPhase.Began:
-                    // Начало касания
-                    touchStartPos = touch.position;
-                    isSwiping = true;
-                    break;
+        if (isTouching)
+        {
+            // Ограничиваем позицию только по X
+            float clampedX = Mathf.Clamp(screenPos.x, _minX, _maxX);
 
-                case TouchPhase.Ended:
-                    if (isSwiping)
-                    {
-                        // Вычисляем вектор свайпа
-                        Vector2 swipeDelta = touch.position - touchStartPos;
+            // Y остаётся фиксированным
+            _targetPosition = new Vector3(clampedX, _fixedY, 0);
+            _isMoving = true;
+        }
+        else
+        {
+            _isMoving = false;
+        }
 
-                        // Проверяем, что свайп достаточно длинный
-                        if (swipeDelta.magnitude >= minSwipeDistance)
-                        {
-                            // Определяем направление
-                            SwipeDirection direction = GetSwipeDirection(swipeDelta);
-
-                            // Двигаем корабль
-                            MoveShip(direction);
-                            
-                        }
-                        isSwiping = false;
-                    }
-                    break;
-
-                case TouchPhase.Canceled:
-                    isSwiping = false;
-                    break;
-            }
+        // Плавно двигаем корабль только по X
+        if (_isMoving)
+        {
+            Vector3 currentPos = transform.position;
+            currentPos.x = Mathf.Lerp(currentPos.x, _targetPosition.x, _smoothSpeed * Time.deltaTime);
+            // Y не меняется
+            transform.position = currentPos;
         }
     }
 
-    
-    private SwipeDirection GetSwipeDirection(Vector2 delta)
+    // Публичный метод для телепортации в точку спавна
+    public void TeleportToSpawn()
     {
-        
-        if (Mathf.Abs(delta.x) > Mathf.Abs(delta.y))
-        {
-            return delta.x > 0 ? SwipeDirection.Right : SwipeDirection.Left;
-        }
-        return SwipeDirection.None;
+        float clampedSpawnX = Mathf.Clamp(_spawnPosition.x, _minX, _maxX);
+        _fixedY = _spawnPosition.y;
+
+        _targetPosition = new Vector3(clampedSpawnX, _fixedY, 0);
+        transform.position = _targetPosition;
     }
 
-   
-    private void MoveShip(SwipeDirection direction)
+    // Публичный метод для установки новой точки спавна
+    public void SetSpawnPosition(Vector2 newSpawn)
     {
-        Vector3 newPosition = targetPosition;
-
-        switch (direction)
-        {
-            case SwipeDirection.Left:
-                StartCoroutine(AnimationPlay("TurnLT", _timeClip));
-                newPosition.x -= moveDistance;
-                Debug.Log("⬅️ Свайп влево - двигаем корабль влево");
-                break;
-
-            case SwipeDirection.Right:
-                StartCoroutine(AnimationPlay("TurnRT", _timeClip));
-                newPosition.x += moveDistance;
-                Debug.Log("➡️ Свайп вправо - двигаем корабль вправо");
-                break;
-
-            default:
-                return; 
-        }
-
-        _audioManager.PlaySfx(_audioClip, 0.5f);
-
-
-        newPosition.x = Mathf.Clamp(newPosition.x, leftBorder, rightBorder);
-
-       
-        if (newPosition != targetPosition)
-        {
-            targetPosition = newPosition;
-            isMoving = true;
-        }
+        _spawnPosition = newSpawn;
     }
 
-
-    void OnGUI()
+    // Публичный метод для получения текущей точки спавна
+    public Vector2 GetSpawnPosition()
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-            touchStartPos = Input.mousePosition;
-            isSwiping = true;
-        }
-
-        if (Input.GetMouseButtonUp(0) && isSwiping)
-        {
-            Vector2 swipeDelta = (Vector2)Input.mousePosition - touchStartPos;
-            if (swipeDelta.magnitude >= minSwipeDistance)
-            {
-                SwipeDirection direction = GetSwipeDirection(swipeDelta);
-                MoveShip(direction);
-            }
-            isSwiping = false;
-        }
-    }
-
-    private IEnumerator AnimationPlay(string animationName, float timeClip)
-    {
-         _animator.SetBool(animationName, true);
-         yield return new WaitForSeconds(timeClip);
-         _animator.SetBool(animationName, false);
+        return _spawnPosition;
     }
 }
